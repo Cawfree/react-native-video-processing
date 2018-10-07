@@ -461,6 +461,9 @@ public class Trimmer {
     int width = options.hasKey("width") ? (int)( options.getDouble("width") ) : 0;
     int height = options.hasKey("height") ? (int)( options.getDouble("height") ) : 0;
 
+    Log.d(LOG_TAG, "got width "+width);
+    Log.d(LOG_TAG, "got height "+height);
+
     if ( width != 0 && height != 0 && videoWidth != 0 && videoHeight != 0 ) {
       ReadableMap sizes = formatWidthAndHeightForFfmpeg(
         width,
@@ -470,6 +473,8 @@ public class Trimmer {
       );
       width = sizes.getInt("width");
       height = sizes.getInt("height");
+      Log.d(LOG_TAG, "readable map got width "+width);
+      Log.d(LOG_TAG, "readable map got height "+height);
     }
 
     Double minimumBitrate = options.hasKey("minimumBitrate") ? options.getDouble("minimumBitrate") : null;
@@ -515,6 +520,10 @@ public class Trimmer {
       cmd.add("-an");
     }
     cmd.add(tempFile.getPath());
+
+    for (final String s : cmd) {
+      Log.d(LOG_TAG, "Buffering tag "+s);
+    }
 
     executeFfmpegCommand(cmd, tempFile.getPath(), ctx, promise, "compress error", cb);
   }
